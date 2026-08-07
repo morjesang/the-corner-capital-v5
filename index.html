@@ -40,7 +40,6 @@ align-items:center;
 justify-content:center;
 font-weight:bold;
 color:white;
-cursor:pointer;
 }
 
 .sold{
@@ -50,10 +49,6 @@ background:#dc3545;
 .available{
 background:#198754;
 }
-
-h2{
-text-align:center;
-}
 </style>
 </head>
 
@@ -61,57 +56,63 @@ text-align:center;
 
 <header>
 <h1>The Corner Capital V5</h1>
-<p>28 Shop Layout</p>
+<p>Firebase Connected</p>
 </header>
 
 <div class="container">
-
-<h2>Front Line (Shop 1-15)</h2>
-
-<div class="row">
-<div class="shop sold">Shop 1</div>
-<div class="shop sold">Shop 2</div>
-<div class="shop available">Shop 3</div>
-<div class="shop sold">Shop 4</div>
-<div class="shop sold">Shop 5</div>
-<div class="shop sold">Shop 6</div>
-<div class="shop sold">Shop 7</div>
-<div class="shop sold">Shop 8</div>
-<div class="shop sold">Shop 9</div>
-<div class="shop available">Shop 10</div>
-<div class="shop available">Shop 11</div>
-<div class="shop sold">Shop 12</div>
-<div class="shop sold">Shop 13</div>
-<div class="shop sold">Shop 14</div>
-<div class="shop sold">Shop 15</div>
+<div class="row" id="shops"></div>
 </div>
 
-<h2>Back Line (Shop 16-28)</h2>
+<script type="module">
 
-<div class="row">
-<div class="shop sold">Shop 16</div>
-<div class="shop sold">Shop 17</div>
-<div class="shop sold">Shop 18</div>
-<div class="shop available">Shop 19</div>
-<div class="shop available">Shop 20</div>
-<div class="shop available">Shop 21</div>
-<div class="shop available">Shop 22</div>
-<div class="shop available">Shop 23</div>
-<div class="shop available">Shop 24</div>
-<div class="shop available">Shop 25</div>
-<div class="shop sold">Shop 26</div>
-<div class="shop sold">Shop 27</div>
-<div class="shop sold">Shop 28</div>
-</div>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<h2>Legend</h2>
+const firebaseConfig = {
+apiKey: "AIzaSyAhSE_7lzCegxf1bg19zyR3tvTWwTz8KF4",
+authDomain: "the-corner-capital-v5.firebaseapp.com",
+projectId: "the-corner-capital-v5",
+storageBucket: "the-corner-capital-v5.firebasestorage.app",
+messagingSenderId: "682177173816",
+appId: "1:682177173816:web:1c849711390f7ca64609cd"
+};
 
-<div class="row">
-<div class="shop available">Available</div>
-<div class="shop sold">Sold</div>
-</div>
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-</div>
+const shopsDiv = document.getElementById("shops");
+
+async function loadShops() {
+
+try {
+
+const querySnapshot = await getDocs(collection(db,"shops"));
+
+querySnapshot.forEach((doc) => {
+
+const data = doc.data();
+
+const div = document.createElement("div");
+
+div.className = "shop " + (data.status === "sold" ? "sold" : "available");
+
+div.innerHTML = data.name;
+
+shopsDiv.appendChild(div);
+
+});
+
+} catch(error) {
+
+console.log(error);
+
+}
+
+}
+
+loadShops();
+
+</script>
 
 </body>
 </html>
