@@ -1,53 +1,225 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Corner Capital V5</title>
+
+<title>The Corner Capital | Tenivada</title>
 
 <style>
+*{
+    box-sizing:border-box;
+}
+
 body{
-font-family:Arial,sans-serif;
-margin:0;
-background:#f4f6f9;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f6fa;
+    color:#172033;
 }
 
 header{
-background:#0d6efd;
-color:white;
-text-align:center;
-padding:20px;
+    background:linear-gradient(135deg,#0b3d91,#1261c9);
+    color:white;
+    text-align:center;
+    padding:28px 15px;
+}
+
+header h1{
+    margin:0;
+    font-size:32px;
+    letter-spacing:1px;
+}
+
+header p{
+    margin:7px 0 0;
+    font-size:17px;
+}
+
+.location{
+    margin-top:6px;
+    opacity:.9;
 }
 
 .container{
-padding:20px;
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
 }
 
-.row{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:10px;
-margin-bottom:20px;
+.intro{
+    background:white;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    text-align:center;
+}
+
+.intro h2{
+    margin:0 0 8px;
+}
+
+.legend{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin:15px 0;
+}
+
+.legend span{
+    padding:8px 14px;
+    border-radius:20px;
+    color:white;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.green{background:#198754;}
+.yellow{background:#e0a800;}
+.red{background:#dc3545;}
+
+.line-title{
+    text-align:center;
+    margin:28px 0 14px;
+    font-size:21px;
+}
+
+.shop-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
 }
 
 .shop{
-width:110px;
-height:70px;
-border-radius:8px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-color:white;
+    min-height:100px;
+    border-radius:12px;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    box-shadow:0 3px 8px rgba(0,0,0,.15);
+    transition:.2s;
+    padding:10px;
 }
 
-.sold{
-background:#dc3545;
+.shop:hover{
+    transform:translateY(-3px);
 }
 
-.available{
-background:#198754;
+.shop.available{
+    background:#198754;
+}
+
+.shop.pending{
+    background:#e0a800;
+}
+
+.shop.sold{
+    background:#dc3545;
+}
+
+.shop-number{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.shop-status{
+    font-size:13px;
+    margin-top:6px;
+}
+
+.info{
+    margin-top:25px;
+    background:white;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    display:none;
+}
+
+.info h2{
+    margin-top:0;
+}
+
+.info-row{
+    padding:8px 0;
+    border-bottom:1px solid #eee;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+.btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    cursor:pointer;
+    display:inline-block;
+}
+
+.map-btn{
+    background:#0d6efd;
+}
+
+.whatsapp-btn{
+    background:#198754;
+}
+
+footer{
+    text-align:center;
+    padding:25px 10px;
+    color:#667085;
+    font-size:14px;
+}
+
+@media(max-width:800px){
+    .shop-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+
+@media(max-width:600px){
+    header h1{
+        font-size:25px;
+    }
+
+    .container{
+        padding:12px;
+    }
+
+    .shop-grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:8px;
+    }
+
+    .shop{
+        min-height:85px;
+    }
+
+    .shop-number{
+        font-size:15px;
+    }
+
+    .shop-status{
+        font-size:11px;
+    }
+}
+
+@media(max-width:400px){
+    .shop-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 }
 </style>
 </head>
@@ -55,62 +227,250 @@ background:#198754;
 <body>
 
 <header>
-<h1>The Corner Capital V5</h1>
-<p>Firebase Connected</p>
+    <h1>THE CORNER CAPITAL</h1>
+    <p>Tenivada</p>
+    <div class="location">
+        Ahmedabad–Abu Road State Highway 41
+    </div>
 </header>
 
 <div class="container">
-<div class="row" id="shops"></div>
+
+    <div class="intro">
+        <h2>Commercial Shops</h2>
+        <p>28 Shops • Online Shop Availability</p>
+
+        <div class="legend">
+            <span class="green">Available</span>
+            <span class="yellow">Pending</span>
+            <span class="red">Sold</span>
+        </div>
+    </div>
+
+    <h2 class="line-title">Front Line — Shop 1 to 15</h2>
+    <div class="shop-grid" id="frontShops"></div>
+
+    <h2 class="line-title">Back Line — Shop 16 to 28</h2>
+    <div class="shop-grid" id="backShops"></div>
+
+    <div class="info" id="shopInfo">
+        <h2 id="infoTitle">Shop Details</h2>
+
+        <div class="info-row">
+            <b>Status:</b>
+            <span id="infoStatus"></span>
+        </div>
+
+        <div class="info-row">
+            <b>Price:</b>
+            <span id="infoPrice"></span>
+        </div>
+
+        <div class="info-row">
+            <b>Size:</b>
+            <span id="infoSize"></span>
+        </div>
+
+        <div class="buttons">
+            <a id="mapButton"
+               class="btn map-btn"
+               href="#"
+               target="_blank">
+               📍 View Location
+            </a>
+
+            <a id="whatsappButton"
+               class="btn whatsapp-btn"
+               href="#"
+               target="_blank">
+               📱 WhatsApp Inquiry
+            </a>
+        </div>
+    </div>
+
 </div>
 
-<script type="module">
+<footer>
+    © 2026 THE CORNER CAPITAL • Tenivada
+</footer>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script>
 
-const firebaseConfig = {
-apiKey: "AIzaSyAhSE_7lzCegxf1bg19zyR3tvTWwTz8KF4",
-authDomain: "the-corner-capital-v5.firebaseapp.com",
-projectId: "the-corner-capital-v5",
-storageBucket: "the-corner-capital-v5.firebasestorage.app",
-messagingSenderId: "682177173816",
-appId: "1:682177173816:web:1c849711390f7ca64609cd"
-};
+/* =====================================================
+   SHOP DATA
+   અહીં પછી Price / Size / Status સરળતાથી બદલી શકાશે
+   ===================================================== */
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const shops = [
 
-const shopsDiv = document.getElementById("shops");
+    {no:1,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:2,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:3,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:4,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:5,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:6,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:7,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:8,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:9,  status:"available", price:"To be updated", size:"To be updated"},
+    {no:10, status:"available", price:"To be updated", size:"To be updated"},
+    {no:11, status:"available", price:"To be updated", size:"To be updated"},
+    {no:12, status:"available", price:"To be updated", size:"To be updated"},
+    {no:13, status:"available", price:"To be updated", size:"To be updated"},
+    {no:14, status:"available", price:"To be updated", size:"To be updated"},
+    {no:15, status:"available", price:"To be updated", size:"To be updated"},
 
-async function loadShops() {
+    {no:16, status:"available", price:"To be updated", size:"To be updated"},
+    {no:17, status:"available", price:"To be updated", size:"To be updated"},
+    {no:18, status:"available", price:"To be updated", size:"To be updated"},
+    {no:19, status:"available", price:"To be updated", size:"To be updated"},
+    {no:20, status:"available", price:"To be updated", size:"To be updated"},
+    {no:21, status:"available", price:"To be updated", size:"To be updated"},
+    {no:22, status:"available", price:"To be updated", size:"To be updated"},
+    {no:23, status:"available", price:"To be updated", size:"To be updated"},
+    {no:24, status:"available", price:"To be updated", size:"To be updated"},
+    {no:25, status:"available", price:"To be updated", size:"To be updated"},
+    {no:26, status:"available", price:"To be updated", size:"To be updated"},
+    {no:27, status:"available", price:"To be updated", size:"To be updated"},
+    {no:28, status:"available", price:"To be updated", size:"To be updated"}
 
-try {
+];
 
-const querySnapshot = await getDocs(collection(db,"shops"));
+/* =====================================================
+   GOOGLE MAP LOCATION
+   હાલ project location search છે.
+   ચોક્કસ Google Map Link પછી અહીં મૂકી શકાશે.
+   ===================================================== */
 
-querySnapshot.forEach((doc) => {
+const mapLocation =
+"https://www.google.com/maps/search/?api=1&query=The+Corner+Capital+Tenivada+Ahmedabad+Abu+Road+State+Highway+41";
 
-const data = doc.data();
 
-const div = document.createElement("div");
+/* =====================================================
+   WHATSAPP NUMBER
+   અત્યારે placeholder છે.
+   તમારો WhatsApp નંબર પછી અહીં નાખવો.
+   Country code સાથે લખવો.
+   ઉદાહરણ: 919876543210
+   ===================================================== */
 
-div.className = "shop " + (data.status === "sold" ? "sold" : "available");
+const whatsappNumber = "";
 
-div.innerHTML = data.name;
 
-shopsDiv.appendChild(div);
+/* =====================================================
+   SHOP DISPLAY
+   ===================================================== */
+
+const frontShops = document.getElementById("frontShops");
+const backShops = document.getElementById("backShops");
+
+function createShop(shop){
+
+    const div = document.createElement("div");
+
+    div.className = "shop " + shop.status;
+
+    let statusText = "Available";
+
+    if(shop.status === "sold"){
+        statusText = "Sold";
+    }
+
+    if(shop.status === "pending"){
+        statusText = "Pending";
+    }
+
+    div.innerHTML = `
+        <div class="shop-number">SHOP ${shop.no}</div>
+        <div class="shop-status">${statusText}</div>
+    `;
+
+    div.onclick = function(){
+        showShop(shop);
+    };
+
+    return div;
+}
+
+
+/* =====================================================
+   LOAD SHOPS
+   ===================================================== */
+
+shops.forEach(shop => {
+
+    if(shop.no <= 15){
+        frontShops.appendChild(createShop(shop));
+    }else{
+        backShops.appendChild(createShop(shop));
+    }
 
 });
 
-} catch(error) {
 
-console.log(error);
+/* =====================================================
+   SHOP DETAILS
+   ===================================================== */
 
+function showShop(shop){
+
+    const info = document.getElementById("shopInfo");
+
+    let statusText = "Available";
+
+    if(shop.status === "sold"){
+        statusText = "Sold";
+    }
+
+    if(shop.status === "pending"){
+        statusText = "Pending";
+    }
+
+    document.getElementById("infoTitle").innerText =
+        "Shop " + shop.no + " Details";
+
+    document.getElementById("infoStatus").innerText =
+        statusText;
+
+    document.getElementById("infoPrice").innerText =
+        shop.price;
+
+    document.getElementById("infoSize").innerText =
+        shop.size;
+
+    document.getElementById("mapButton").href =
+        mapLocation;
+
+    const whatsappButton =
+        document.getElementById("whatsappButton");
+
+    if(whatsappNumber){
+
+        const message =
+            "Hello, I am interested in Shop " +
+            shop.no +
+            " at The Corner Capital, Tenivada.";
+
+        whatsappButton.href =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+        whatsappButton.style.display = "inline-block";
+
+    }else{
+
+        whatsappButton.style.display = "none";
+
+    }
+
+    info.style.display = "block";
+
+    info.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
 }
-
-}
-
-loadShops();
 
 </script>
 
